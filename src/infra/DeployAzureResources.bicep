@@ -25,7 +25,7 @@ module updateRgTags 'updateRgTags.bicep' = {
   params: {
     rgName: resourceGroup().name
     rgLocation: resourceGroup().location
-    newTags: union(resourceGroup().tags ?? {}, { SecurityGroup: 'Ignore' })
+    newTags: union(resourceGroup().tags ?? {}, { SecurityControl: 'Ignore' })
   }
 }
 
@@ -102,6 +102,7 @@ resource aiFoundry 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
     customSubDomainName: aiFoundryName
 
     disableLocalAuth: false
+    publicNetworkAccess: 'Enabled'
   }
 }
 
