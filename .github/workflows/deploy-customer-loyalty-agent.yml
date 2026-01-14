@@ -19,7 +19,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create .env file from secret
-        run: 'echo "$ENV" > src/.env'
+        run: |
+          echo "$ENV" > src/.env
+          # Also export to GITHUB_ENV so variables are available in subsequent steps
+          while IFS= read -r line || [[ -n "$line" ]]; do
+            # Skip empty lines and comments
+            if [[ -n "$line" && ! "$line" =~ ^# ]]; then
+              echo "$line" >> $GITHUB_ENV
+            fi
+          done < src/.env
         shell: bash
         env:
           ENV: ${{ secrets.ENV }}
